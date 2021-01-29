@@ -60,6 +60,72 @@ Note: the `_` variable defined in this programme should work like the Jquery var
           return element[getRandomInt(0, element.length)];
         }
       },
+
+      matchObject: function(obj, suppliedObj) {
+        let allfirstKeys = Object.getOwnPropertyNames(obj);
+        let allSecKeys = Object.getOwnPropertyNames(suppliedObj);
+        return allSecKeys.every(key => {
+          return allfirstKeys.includes(key) && suppliedObj[key] === obj[key];
+        });
+      },
+      
+      findWhere: function(obj) {
+        for (let idx = 0; idx < element.length; idx += 1) {
+          if (this.matchObject(element[idx], obj)) {
+            return element[idx];
+          }
+        }
+      },
+  
+      where: function(suppliedObj) {
+        return element.filter(obj => {
+          return this.matchObject(obj, suppliedObj)
+        });
+      },
+  
+      pluck: function(suppliedKey) {
+        let result = element.filter(obj => {
+          return Object.prototype.hasOwnProperty.call(obj, suppliedKey);
+        });
+  
+        return result.map(obj => {return obj[suppliedKey]});
+      },
+  
+      keys: function() {
+        return Object.getOwnPropertyNames(element);
+      },
+  
+      values: function() {
+        return Object.getOwnPropertyNames(element).map(prop => {
+          return element[prop];
+        })
+      },
+  
+      pick: function(...props) {
+        let result = {};
+        props.forEach(prop => {
+          if (Object.prototype.hasOwnProperty.call(element, prop)) {
+            result[prop] = element[prop];
+          }
+        })
+        return result;
+      },
+  
+      omit: function(...props) {
+        let result = {};
+        let oldObjProperties = Object.getOwnPropertyNames(element);
+        oldObjProperties.forEach(oldProp => {
+          if (!props.includes(oldProp)) {
+            result[oldProp] = element[oldProp];
+          }
+        })
+        return result;
+      },
+  
+      has: function(prop) {
+        return Object.prototype.hasOwnProperty.call(element, prop);
+      },
+  
     };
 
     return u;
@@ -78,6 +144,13 @@ Note: the `_` variable defined in this programme should work like the Jquery var
     }
 
     return result;
+  };
+
+  _.extend = function(...objs) {
+    for (let idx = objs.length - 1; idx > 0; idx -= 1) {
+      Object.assign(objs[idx - 1], objs[idx]);
+    }
+    return objs[0];
   };
 
   window._ = _;
