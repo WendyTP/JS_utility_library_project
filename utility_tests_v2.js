@@ -24,6 +24,7 @@ test("_ is defined", function() {
   return typeof _ !== "undefined";
 });
 
+// testing for first method
 test("first is defined", function() {
   return typeof _().first === "function";
 });
@@ -38,6 +39,7 @@ test("first returns first element in an array", function() {
   });
 })();
 
+// testing for last method
 test("last is defined", function() {
   return typeof _().last === "function";
 });
@@ -45,6 +47,7 @@ test("last returns last element in an array", function() {
   return _([1, 2, 3, 4]).last() === 4;
 });
 
+// testing for without method
 test("without is defined", function() {
   return typeof _().without === "function";
 });
@@ -75,6 +78,7 @@ test("range returns an array of values starting with the first value when two ar
   return _.range(1, 10)[0] === 1 && _.range(1,10).length === 9;
 });
 
+// testing for lastIndexOf method
 test("lastIndexOf is defined", function() {
   return typeof _().lastIndexOf === "function";
 });
@@ -82,6 +86,7 @@ test("lastIndexOf returns last index of supplied value", function() {
   return _([1, 1, 1]).lastIndexOf(1) === 2 && _([1, 2, 3]).lastIndexOf(2) === 1;
 });
 
+// testing for sample method
 test("sample is defined", function() {
   return typeof _().sample === "function";
 });
@@ -92,6 +97,8 @@ test("sample returns multiple, non-repetitive elements when a numeric argument s
   return _([1, 2, 3]).sample(3).length === 3;
 });
 
+
+// testing for findWhere method
 test("findWhere is defined", function() {
   return typeof _().findWhere === "function";
 });
@@ -102,6 +109,7 @@ test("findWhere is defined", function() {
     return _(dict).findWhere({ foo: "bar" }).idx === 0;
   });
 })();
+
 (function() {
   var dict = [{ foo: "bar", quux: "q", idx: 0 }, { foo: "baz", quux: "z", idx: 1 }, { foo: "bar", quux: "z", idx: 2 }];
 
@@ -109,6 +117,7 @@ test("findWhere is defined", function() {
     return _(dict).findWhere({ foo: "bar", quux: "z" }).idx === 2;
   });
 })();
+
 (function() {
   var dict = [{ foo: "bar", idx: 0 }, { foo: "baz", idx: 1 }, { foo: "bar", idx: 2 }];
 
@@ -117,6 +126,7 @@ test("findWhere is defined", function() {
   });
 })();
 
+// testing for where method
 test("where is defined", function() {
   return typeof _().where === "function";
 });
@@ -132,6 +142,7 @@ test("where is defined", function() {
   });
 })();
 
+// testing for pluck method
 test("pluck is defined", function() {
   return typeof _().pluck === "function";
 });
@@ -149,6 +160,7 @@ test("pluck returns both values", function() {
   return pluck[0] === "bar" && pluck[1] === "baz";
 });
 
+// testing for keys method
 test("keys is defined", function() {
   return typeof _().keys === "function";
 });
@@ -166,6 +178,7 @@ test("keys does not return inherited object properties", function() {
   return keys.indexOf("toString") === -1;
 });
 
+// testing for values method
 test("values is defined", function() {
   return typeof _().values === "function";
 });
@@ -179,6 +192,7 @@ test("values returns all values that are own properties of the object", function
   return values.indexOf("bar") !== -1 && values.indexOf("quuz") !== -1;
 });
 
+// testing for extend method
 test("extend is defined", function() {
   return typeof _.extend === "function";
 });
@@ -205,6 +219,7 @@ test("extend works with any number of objects", function() {
   return crazy_object.foo === "bar";
 });
 
+// testing for pick method
 test("pick is defined", function() {
   return typeof _().pick === "function";
 });
@@ -222,6 +237,7 @@ test("pick ignores any properties passed in that do not exist on the source obje
   return _(new_obj).pick("foo", "bar").bar === undefined;
 });
 
+// testing for omit method
 test("omit is defined", function() {
   return typeof _().omit === "function";
 });
@@ -247,6 +263,7 @@ test("omit doesn't remove all the properties", function() {
   return new_obj.hasOwnProperty('foo') === false && new_obj.hasOwnProperty('foo2') === true;
 });
 
+// testing for has method
 test("has is defined", function() {
   return typeof _().has === "function";
 });
@@ -268,29 +285,42 @@ test("has returns true when hasOwnProperty is defined", function() {
   return _(o).has("hasOwnProperty");
 });
 
+// testing for isElement method
 (["isElement", "isArray", "isObject", "isFunction", "isBoolean", "isString", "isNumber"]).forEach(function(method) {
   test(method + " is defined", function() {
-    return typeof _[method] === "function" && typeof _()[method] === "function";
+    return typeof _()[method] === "function" && typeof _[method] === "function";
   });
 });
 test("isElement returns true if DOM element, otherwise false", function() {
   return _.isElement(document.body) && !_.isElement({});
 });
+
+// testing for isArray method
 test("isArray returns true if array, otherwise false", function() {
-  return _.isArray([]) && !_.isArray({ 0: "a", 1: "b" });
+  return _([]).isArray() && !_.isArray({ 0: "a", 1: "b" });
 });
+
+// testing for isObject method
 test("isObject returns true if object or function, otherwise false", function() {
   return _.isObject({}) && _.isObject([]) && _.isObject(isNaN) && !_.isObject(1);
 });
+
+// testing for isFunction method
 test("isFunction returns true if function, otherwise false", function() {
   return _.isFunction(isNaN) && !_.isFunction({});
 });
+
+// testing for isBoolean method
 test("isBoolean returns true if boolean (primitive or object), otherwise false", function() {
   return _.isBoolean(false) && _.isBoolean(new Boolean(false)) && !_.isBoolean(1);
 });
+
+// testing for isString method
 test("isString returns true if string, otherwise false", function() {
   return _.isString("") && _.isString(new String()) && !_.isString(1);
 });
+
+// testing for isNumber method
 test("isNumber returns true if number, (primitive or object), otherwise false", function() {
   return _.isNumber(1) && _.isNumber(new Number(5)) && !_.isNumber("5");
 });

@@ -125,8 +125,11 @@ Note: the `_` variable defined in this programme should work like the Jquery var
       has: function(prop) {
         return Object.prototype.hasOwnProperty.call(element, prop);
       },
-  
     };
+
+    (["isArray", "isObject", "isFunction", "isString", "isNumber", "isBoolean"]).forEach(method => {
+      u[method] = _[method].bind(u, element);
+    });
 
     return u;
   };
@@ -151,6 +154,30 @@ Note: the `_` variable defined in this programme should work like the Jquery var
       Object.assign(objs[idx - 1], objs[idx]);
     }
     return objs[0];
+  };
+
+  _.isArray = function(arr) {
+    return Array.isArray(arr);
+  };
+
+  _.isObject = function(arg) {
+    return typeof arg === "function" || typeof arg === "object";
+  };
+  
+  _.isFunction = function(func) {
+    return typeof func === "function";
+  };
+  
+  _.isString = function(str) {
+    return typeof str === "string" || str.constructor === String;
+  };
+  
+  _.isNumber = function(num) {
+    return typeof num === 'number' || num.constructor === Number;
+  };
+  
+  _.isBoolean = function(boo) {
+    return typeof boo === "boolean" || boo.constructor === Boolean;
   };
 
   window._ = _;
