@@ -292,7 +292,7 @@ test("has returns true when hasOwnProperty is defined", function() {
   });
 });
 test("isElement returns true if DOM element, otherwise false", function() {
-  return _.isElement(document.body) && !_.isElement({});
+  return  _.isElement(document.body) && !_.isElement({});
 });
 
 // testing for isArray method

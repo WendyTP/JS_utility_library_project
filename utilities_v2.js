@@ -5,6 +5,15 @@ Note: the `_` variable defined in this programme should work like the Jquery var
 */
 
 (function(){
+  var matchObject = function(obj, suppliedObj) {
+    let allfirstKeys = Object.getOwnPropertyNames(obj);
+    let allSecKeys = Object.getOwnPropertyNames(suppliedObj);
+    return allSecKeys.every(key => {
+      return allfirstKeys.includes(key) && suppliedObj[key] === obj[key];
+    });
+  };
+
+
   var _ = function(element) {
     var u = {
       first: function() {
@@ -61,17 +70,9 @@ Note: the `_` variable defined in this programme should work like the Jquery var
         }
       },
 
-      matchObject: function(obj, suppliedObj) {
-        let allfirstKeys = Object.getOwnPropertyNames(obj);
-        let allSecKeys = Object.getOwnPropertyNames(suppliedObj);
-        return allSecKeys.every(key => {
-          return allfirstKeys.includes(key) && suppliedObj[key] === obj[key];
-        });
-      },
-      
       findWhere: function(obj) {
         for (let idx = 0; idx < element.length; idx += 1) {
-          if (this.matchObject(element[idx], obj)) {
+          if (matchObject(element[idx], obj)) {
             return element[idx];
           }
         }
@@ -79,7 +80,7 @@ Note: the `_` variable defined in this programme should work like the Jquery var
   
       where: function(suppliedObj) {
         return element.filter(obj => {
-          return this.matchObject(obj, suppliedObj)
+          return matchObject(obj, suppliedObj)
         });
       },
   
@@ -127,7 +128,7 @@ Note: the `_` variable defined in this programme should work like the Jquery var
       },
     };
 
-    (["isArray", "isObject", "isFunction", "isString", "isNumber", "isBoolean"]).forEach(method => {
+    ([ "isElement" ,"isArray", "isObject", "isFunction", "isString", "isNumber", "isBoolean" ]).forEach(method => {
       u[method] = _[method].bind(u, element);
     });
 
@@ -156,12 +157,16 @@ Note: the `_` variable defined in this programme should work like the Jquery var
     return objs[0];
   };
 
+  _.isElement = function(obj) {
+    return obj && obj.nodeType === 1;
+  }
+
   _.isArray = function(arr) {
-    return Array.isArray(arr);
+    return toString.call(arr) === "[object Array]" || Array.isArray(arr);
   };
 
   _.isObject = function(arg) {
-    return typeof arg === "function" || typeof arg === "object";
+    return typeof arg === "function" || typeof arg === "object" && !!arg;
   };
   
   _.isFunction = function(func) {
@@ -179,6 +184,8 @@ Note: the `_` variable defined in this programme should work like the Jquery var
   _.isBoolean = function(boo) {
     return typeof boo === "boolean" || boo.constructor === Boolean;
   };
+
+ 
 
   window._ = _;
 })();

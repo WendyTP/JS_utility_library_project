@@ -69,7 +69,7 @@ var _ = function(element) {
 
   };
 
-  (["isArray", "isObject", "isFunction", "isString", "isNumber", "isBoolean"]).forEach(method => {
+  (["isArray", "isObject", "isFunction", "isString", "isNumber", "isBoolean", "_isElement"]).forEach(method => {
     u[method] = _[method].bind(u, element);
   });
 
@@ -87,7 +87,7 @@ _.extend = function(...objs) {
 };
 
 _.isArray = function(arr) {
-  return Array.isArray(arr);
+  return toString.call(arr) === "[object Array]" || Array.isArray(arr);
 };
 
 _.isObject = function(arg) {
@@ -108,7 +108,11 @@ _.isNumber = function(num) {
 
 _.isBoolean = function(boo) {
   return typeof boo === "boolean" || boo.constructor === Boolean;
-}
+};
+
+_.isElement = function(obj) {
+  return obj && obj.nodeType === 1;
+};
 
 
 
